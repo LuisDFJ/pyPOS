@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<title></title>
+<link rel="stylesheet" href="{{ url_for( 'static', filename='style.css' ) }}">
+<nav>
+    <span>
+        <h1>Icon</h1>
+    </span>
+    <ul>
+        {% if g.user %}
+            <li>
+                User
+            </li>
+            <li>
+                Log Out
+            </li>
+        {% else %}
+            <li>
+                Log In
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+<section>
+    {% block content %}
+    {% endblock %}
+</section>
