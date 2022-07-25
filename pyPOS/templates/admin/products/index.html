@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for category, product_list in products.items() %}
+        <h2>{{ category }}</h2>
+        {% for product in product_list%}
+            <li>
+                <span>
+                    <h3>{{ product.name|e }}</h3>
+                    <p>{{ product.description|e }}</p>
+                    <img src="{{ url_for( 'static', filename='products/' + product.thumbnail|e ) }}">
+                    <p>Modify</p>
+                </span>
+            </li>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

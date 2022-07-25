@@ -88,8 +88,6 @@ def roll_up_secret():
         lines.append( f'\nSECRET_KEY = "{secrets.token_hex()}"' )
     with open( config_path, 'w' ) as pFile: pFile.writelines( lines )
 
-    
-
 @click.command( 'create-user' )
 @click.option( '--admin', is_flag=True, is_eager=False )
 @click.option( '--username', prompt=True )
@@ -102,6 +100,22 @@ def create_user_command( admin, username, password ):
     else:
         if insert_into_user( username, 'user' ):
             insert_into_credentials( 'insert_credential_user.sql', username, 'null', 'user' )
+
+@click.command( 'delete-user' )
+@click.option( '--username', prompt=True )
+@with_appcontext
+def delete_user_command( username ):
+    db = getDB()
+    user = db.execute(
+        'SELECT id, position FROM user WHERE username = ?',
+        ( username, )
+    ).fetchone()
+    if user:
+        db.execute( f'DELETE FROM user_{ user["position"] } WHERE user_id = ?', ( user['id'], ) )
+        db.execute( 'DELETE FROM user WHERE id = ?', ( user['id'], ) )
+        db.commit()
+    else:
+        click.echo( f'Not existing user [{username}]' )
 
 @click.command( 'gen-tokens' )
 @with_appcontext
@@ -117,9 +131,4 @@ def gen_tokens_command():
         )
     db.commit()
     roll_up_secret()
-
-@click.command( 'test-auth' )
-@with_appcontext
-def user_authentication_command():
-    print( user_authentication( 'Luis', '3ddbd29d6992' ) )
-    
+    click.echo( 'Tokens updated' )

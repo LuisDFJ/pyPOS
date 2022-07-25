@@ -1,9 +1,11 @@
 import os
 from flask import Flask
 from pyPOS.utils.db     import init_db_command, closeDB
-from pyPOS.utils.auth   import create_user_command, gen_tokens_command, user_authentication_command
+from pyPOS.utils.auth   import create_user_command, delete_user_command, gen_tokens_command
+from pyPOS.utils.admin  import add_product_command
 from pyPOS.blueprints   import index
 from pyPOS.blueprints   import auth
+from pyPOS.blueprints   import admin_products
 
 
 def init_app( app : Flask ):
@@ -12,11 +14,13 @@ def init_app( app : Flask ):
     # Commands registration
     app.cli.add_command( init_db_command )
     app.cli.add_command( create_user_command )
+    app.cli.add_command( delete_user_command )
     app.cli.add_command( gen_tokens_command )
-    app.cli.add_command( user_authentication_command )
+    app.cli.add_command( add_product_command )
     # Blueprints registration
     app.register_blueprint( index.bp )
     app.register_blueprint( auth.bp )
+    app.register_blueprint( admin_products.bp )
 
 def create_app():
     app = Flask( __name__, instance_relative_config=True )
@@ -29,7 +33,8 @@ def create_app():
     app.config.from_mapping(
         SECRET_KEY = 'dev_key',
         DATABASE = os.path.join( app.instance_path, 'db.sqlite' ),
-        TOKEN_LENGTH = 6
+        TOKEN_LENGTH = 6,
+        PRODUCT_CATEGORIES = [ 'Food', 'Drink' ]
     )
 
     app.config.from_pyfile(

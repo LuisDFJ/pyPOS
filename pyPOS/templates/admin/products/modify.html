@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Modify Page</p>
+    <form method="post">
+        <label for="name">Name</label>
+        <input name="name" id="name" required>
+
+        <input type="submit" value="Modify">
+    </form>
+    <p>Delete product</p>
+{% endblock %}
