@@ -4,6 +4,7 @@ import os
 from flask import current_app, session
 from flask.cli import with_appcontext
 from pyPOS.utils.db import getDB, openSQL
+from pyPOS.utils.qrcode import generate_qr
 from pyPOS.utils.click_utils import ClickFlagRequired
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -132,3 +133,10 @@ def gen_tokens_command():
     db.commit()
     roll_up_secret()
     click.echo( 'Tokens updated' )
+    
+    users = db.execute(
+        openSQL( 'fetch_users.sql' )
+    ).fetchall()
+    for user in users:
+        generate_qr( user['username'],user['password'] )
+    click.echo( 'QR codes updated' )

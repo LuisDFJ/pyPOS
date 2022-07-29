@@ -1,0 +1,46 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+}
+
+form input {
+    margin-bottom: 1em;
+}
+
+form textarea {
+    margin-bottom: 1em;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+@media all and (max-device-width: 1024px) {
+    h2 {
+        font-size: 4rem;
+    }
+    
+    form {
+        width: 40rem;
+    }
+
+    .form-container {
+        font-size: 3rem;
+    }
+
+    form input {
+        font-size: 3rem;
+    }
+    
+
+}
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+
+}
+
+@media all and (min-device-width: 1024px) {
+    
+}

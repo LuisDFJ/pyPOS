@@ -1,5 +1,7 @@
+import click
 import functools
 from flask import g, redirect, url_for
+from flask.cli import with_appcontext
 
 def credentials_required( view ):
     @functools.wraps( view )
@@ -27,3 +29,4 @@ def credentials_not_required( view ):
             return redirect( url_for( 'index.index' ) )
         return view( **kwargs )
     return wrapped_view
+

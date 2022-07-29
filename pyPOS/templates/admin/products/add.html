@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="product-header">
+        <h2>Add Product</h2>
+    </div>
+    <div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+        <label for="name">Name</label>
+        <input name="name" id="name" required>
+        
+        <label for="price">Price</label>
+        <input step="0.01" type="number" name="price" id="price" required>
+
+        <div class="categories">
+            {% for category in categories %}
+            <input type="radio" name="category" id="{{ category }}" value="{{ category }}" required>
+            <label for="{{ category }}">{{ category }}</label>
+            {% endfor %}
+        </div>
+
+        <label for="description">Description</label>
+        <textarea rows="10" cols="60" name="description"></textarea>
+
+        <label for="thumbnail">Thumbnail</label>
+        <input type="file" name="thumbnail" id="thumbnail" accept=".jpg, .jpeg, .png" required>
+
+
+        <input type="submit" value="Register">
+    </form>
+    </div>
+{% endblock %}

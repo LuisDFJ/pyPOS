@@ -2,16 +2,44 @@
 
 {% block content %}
     {% for category, product_list in products.items() %}
-        <h2>{{ category }}</h2>
-        {% for product in product_list%}
-            <li>
-                <span>
-                    <h3>{{ product.name|e }}</h3>
-                    <p>{{ product.description|e }}</p>
+        <div class="product-header">
+            <h2>{{ category }}</h2>
+            <a href="{{ url_for( 'admin-products.add' ) }}" class="add-product">
+                <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M11 10H9v3H6v2h3v3h2v-3h3v-2h-3z"/>
+                    <path d="M4 22h12c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2zM4 8h12l.002 12H4V8z"/>
+                    <path d="M20 2H8v2h12v12h2V4c0-1.103-.897-2-2-2z"/>
+                </svg>
+            </a>
+        </div>
+        
+        <div class="card-container">
+            {% for product in product_list%}
+                <div class="card">
                     <img src="{{ url_for( 'static', filename='products/' + product.thumbnail|e ) }}">
-                    <p>Modify</p>
-                </span>
-            </li>
-        {% endfor %}
+                    <div class="card-content">
+                        <div class="card-info">
+                            <p class="title">{{ product.name|e }}</>
+                            <p>{{ product.description|e }}</p>
+                            <p class="price">${{ product.price|e }}</p>
+                        </div>
+                        <div class="card-buttons">
+                        
+                            <a href="#" class="card-link">
+                                <div class="card-button">Modify</div>
+                            </a>
+                            <a href="{{ url_for( 'admin-products.delete', id=product.id|e ) }}" class="card-link">
+                                <div class="card-button">Delete</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endfor %}
 {% endblock %}
