@@ -1,8 +1,9 @@
 import os
 from flask import Flask
 #from dotenv import load_dotenv
-from pyPOS.blueprints   import index
 from pyPOS.blueprints   import auth
+from pyPOS.blueprints   import index
+from pyPOS.blueprints   import orders
 from pyPOS.blueprints   import admin_users
 from pyPOS.blueprints   import admin_products
 from pyPOS.utils.db     import init_db_command, closeDB
@@ -21,10 +22,11 @@ def init_app( app : Flask ):
     app.cli.add_command( modify_product_command )
     app.cli.add_command( delete_product_command )
     # Blueprints registration
-    app.register_blueprint( index.bp )
     app.register_blueprint( auth.bp )
-    app.register_blueprint( admin_products.bp )
+    app.register_blueprint( index.bp )
+    app.register_blueprint( orders.bp )
     app.register_blueprint( admin_users.bp )
+    app.register_blueprint( admin_products.bp )
 
 
 def create_app():

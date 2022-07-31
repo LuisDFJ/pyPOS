@@ -10,6 +10,16 @@ ALLOWED_EXTENSIONS = [ 'jpg', 'jpeg', 'png' ]
 def allowed_file( filename:str ):
     return '.' in filename and filename.rsplit( '.', 1 )[1].lower() in ALLOWED_EXTENSIONS
 
+def get_users():
+    db = getDB()
+    users = db.execute(
+        "SELECT username FROM user WHERE position = 'user'"
+    ).fetchall()
+    user_list = []
+    for user in users:
+        user_list.append( user[ 'username' ] )
+    return user_list
+
 def get_products():
     db = getDB()
     products = OrderedDict()

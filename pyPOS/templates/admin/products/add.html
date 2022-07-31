@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/form_styles.css' ) }}"/>
+{% endblock %}
+
 {% block content %}
     <div class="product-header">
         <h2>Add Product</h2>
@@ -26,7 +30,7 @@
         <input type="file" name="thumbnail" id="thumbnail" accept=".jpg, .jpeg, .png" required>
 
 
-        <input type="submit" value="Register">
+        <input type="submit" value="Add">
     </form>
     </div>
 {% endblock %}

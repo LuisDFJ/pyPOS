@@ -9,7 +9,6 @@ bp = Blueprint( "auth", __name__, url_prefix="/auth" )
 
 @bp.before_app_request
 def load_logged_user():
-    print( session )
     id = session.get( 'user_id' )
     if id:
         g.user = getDB().execute(

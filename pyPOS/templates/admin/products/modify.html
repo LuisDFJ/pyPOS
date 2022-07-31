@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/form_styles.css' ) }}"/>
+{% endblock %}
+
 {% block content %}
-    <p>Modify Page</p>
+    <div class="product-header">
+        <h2>Modify Product</h2>
+    </div>
+    <div class="form-container">
     <form method="post">
         <label for="name">Name</label>
-        <input name="name" id="name" required>
+        <input name="name" id="name" value="{{name}}" required>
+        
+        <label for="price">Price</label>
+        <input step="0.01" type="number" name="price" id="price" value="{{price}}" required>
+
+        <label for="description">Description</label>
+        <textarea rows="10" cols="60" name="description">{{description}}</textarea>
 
         <input type="submit" value="Modify">
     </form>
-    <p>Delete product</p>
+    </div>
 {% endblock %}
