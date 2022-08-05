@@ -3,12 +3,14 @@ from flask import Flask
 #from dotenv import load_dotenv
 from pyPOS.blueprints   import auth
 from pyPOS.blueprints   import index
+from pyPOS.blueprints   import entry
 from pyPOS.blueprints   import orders
 from pyPOS.blueprints   import admin_users
 from pyPOS.blueprints   import admin_products
 from pyPOS.utils.db     import init_db_command, closeDB
 from pyPOS.utils.auth   import create_user_command, delete_user_command, gen_tokens_command
 from pyPOS.utils.admin  import add_product_command, modify_product_command, delete_product_command
+from pyPOS.utils.order  import add_order_command, add_entry_command
 
 def init_app( app : Flask ):
     # Teardown registration
@@ -21,9 +23,12 @@ def init_app( app : Flask ):
     app.cli.add_command( add_product_command )
     app.cli.add_command( modify_product_command )
     app.cli.add_command( delete_product_command )
+    app.cli.add_command( add_order_command )
+    app.cli.add_command( add_entry_command )
     # Blueprints registration
     app.register_blueprint( auth.bp )
     app.register_blueprint( index.bp )
+    app.register_blueprint( entry.bp )
     app.register_blueprint( orders.bp )
     app.register_blueprint( admin_users.bp )
     app.register_blueprint( admin_products.bp )

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/card_styles.css' ) }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="product-header">
+        <h2>{{ order.name|e }}</h2>
+    </div>
+    
+    <div class="card-container">
+        {% for product in product_list%}
+            <div class="card">
+                <img src="{{ url_for( 'static', filename='products/' + product.thumbnail|e ) }}">
+                <div class="card-content">
+                    <div class="card-info">
+                        <p class="title">{{ product.name|e }}</>
+                        <p>{{ product.description|e }}</p>
+                        <p class="price">${{ product.price|e }}</p>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="{{ url_for( 'entry.add', id=id, product_id=product.id|e ) }}" class="card-link">
+                            <div class="card-button">Add</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

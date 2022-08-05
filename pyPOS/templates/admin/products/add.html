@@ -18,8 +18,10 @@
 
         <div class="categories">
             {% for category in categories %}
-            <input type="radio" name="category" id="{{ category }}" value="{{ category }}" required>
-            <label for="{{ category }}">{{ category }}</label>
+            <div class="category-item">
+                <input type="radio" name="category" id="{{ category }}" value="{{ category }}" required>
+                <label for="{{ category }}">{{ category }}</label>
+            </div>
             {% endfor %}
         </div>
 

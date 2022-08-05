@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/form_styles.css' ) }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="product-header">
+        <h2>Add {{ product.name|e }}</h2>
+    </div>
+    <div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+        <label for="comment">Comment</label>
+        <textarea rows="10" cols="60" name="comment"></textarea>
+
+        <input type="submit" value="Add">
+    </form>
+    </div>
+{% endblock %}

@@ -1,10 +1,9 @@
 import click
-from flask.cli import with_appcontext
-from pyPOS.utils.db import getDB
-from pyPOS.utils.click_utils import ClickProductContext
-from typing import OrderedDict
+from flask.cli                  import with_appcontext
+from pyPOS.utils.db             import getDB
+from pyPOS.utils.products       import get_categories, get_root_node
+from pyPOS.utils.click_utils    import ClickProductContext, ClickProductChoiceContext, ClickProductChoice
 
-CATEGORIES = [ 'Food', 'Drink' ]
 ALLOWED_EXTENSIONS = [ 'jpg', 'jpeg', 'png' ]
 
 def allowed_file( filename:str ):
@@ -22,20 +21,25 @@ def get_users():
 
 def get_products():
     db = getDB()
-    products = OrderedDict()
-    for category in CATEGORIES:
-        products[ category ] = db.execute(
+    productNode = get_root_node()
+    for category in get_categories():
+        products = db.execute(
             'SELECT * FROM product WHERE category = ?',
             ( category, )
         ).fetchall()
-    return products
+        productNode[ category ].insert( products )
+    products_list = productNode.unwrap()
+    products_list.pop( 0 )
+    return products_list
 
-def get_product( id:int ):
+def get_product( id:int | None = None ):
     db = getDB()
-    return db.execute(
-        'SELECT * FROM product WHERE id = ?',
-        ( id, )
-    ).fetchone()
+    if id:
+        return db.execute(
+            'SELECT * FROM product WHERE id = ?',
+            ( id, )
+        ).fetchone()
+    return db.execute( 'SELECT * FROM product' ).fetchall()
 
 def add_product( name:str, price:float, category:str, description:str, thumbnail:str ):
     db = getDB()
@@ -76,7 +80,7 @@ def delete_product( id:int ):
 @click.command( 'add-product' )
 @click.option( '--name',        prompt=True )
 @click.option( '--price',       prompt=True, type=float )
-@click.option( '--category',    prompt=True, type=click.Choice( CATEGORIES ) )
+@click.option( '--category',    prompt=True, cls=ClickProductChoice, type=click.Choice( [] ) )
 @click.option( '--description', prompt=True )
 @click.option( '--thumbnail',   prompt=True )
 @with_appcontext
@@ -87,7 +91,7 @@ def add_product_command( name, price, category, description, thumbnail ):
 @click.option( '--id',          prompt=True, type=int )
 @click.option( '--name',        prompt=True, cls=ClickProductContext, get_product_callback=get_product )
 @click.option( '--price',       prompt=True, cls=ClickProductContext, get_product_callback=get_product, type=float )
-@click.option( '--category',    prompt=True, cls=ClickProductContext, get_product_callback=get_product, type=click.Choice( CATEGORIES ) )
+@click.option( '--category',    prompt=True, cls=ClickProductChoiceContext, get_product_callback=get_product, type=click.Choice( [] ) )
 @click.option( '--description', prompt=True, cls=ClickProductContext, get_product_callback=get_product )
 @click.option( '--thumbnail',   prompt=True, cls=ClickProductContext, get_product_callback=get_product )
 @with_appcontext

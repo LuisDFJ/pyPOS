@@ -1,10 +1,9 @@
-from ast import arg
-from operator import mod
 import pyPOS
-from flask import Blueprint, flash, redirect, url_for, render_template, request
-from os.path import dirname, abspath, join
-from werkzeug.utils import secure_filename
-from pyPOS.utils.admin import get_products, CATEGORIES, allowed_file, add_product, delete_product, get_product, modify_product
+from flask                  import Blueprint, flash, redirect, url_for, render_template, request
+from os.path                import dirname, abspath, join
+from werkzeug.utils         import secure_filename
+from pyPOS.utils.admin      import get_products, allowed_file, add_product, delete_product, get_product, modify_product
+from pyPOS.utils.products   import get_categories
 from pyPOS.utils.decorators import credentials_required_admin
 
 bp = Blueprint( 'admin-products', __name__, url_prefix='/admin/products' )
@@ -33,7 +32,7 @@ def add():
                     return redirect( url_for( 'admin-products.index' ) )
         flash( error )
         return redirect( request.url )
-    return render_template( 'admin/products/add.html', categories=CATEGORIES )
+    return render_template( 'admin/products/add.html', categories=get_categories() )
 
 @bp.route( '/modify/<int:id>', methods=( 'GET', 'POST' ) )
 @credentials_required_admin

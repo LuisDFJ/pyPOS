@@ -15,31 +15,24 @@
 .card-container {
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fill, 16rem );
-    grid-auto-rows: 25rem;
+    grid-template-columns: repeat(auto-fit, 35rem);
+    grid-auto-rows: 15rem;
     padding: 1rem;
     border-radius: 0.5rem;
 }
 
 .card {
-    padding: 1em;
+    padding: 2em;
     background-color: var(--bg-primary-card);
     display: flex;
-    flex-direction: column;
     align-items: center;
     border-radius: 2rem;
     box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
-.card img {
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 50%;
-    width: auto;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 5px 5px 3px 1px rgba(0, 0, 0, 0.2);
-    align-items: center;
+.card svg {
+    width: 15em;
+    height: 15em;
 }
 
 .card-content {
@@ -62,16 +55,8 @@
     color: var(--text-primary-card);
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 1.2em;
+    font-size: 2em;
     margin-bottom: 0.5em;
-}
-
-.card-info .price {
-    color: var(--text-secondary-card);
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 1.1em;
-    margin-top: auto;
 }
 
 .card-info p {
@@ -81,7 +66,6 @@
 .card-buttons {
     display: flex;
     justify-content: center;
-    align-items: center;
     margin-top: auto;
     width: 100%;
 }
@@ -104,7 +88,7 @@
 .status {
     display: flex;
     align-items: center;
-    font-size: 0.8em;
+    font-size: 2em;
 }
 
 .status svg {
@@ -125,14 +109,12 @@
         grid-auto-rows: 30rem;
     }
 
-    .card img {
-        max-width: 50%;
-        max-height: 100%;
+    .card svg {
+        width: 10em;
+        height: 10em;
     }
 
     .card {
-        flex-direction: row;
-        align-items: center;
         font-size: 2rem;
     }
 
@@ -143,6 +125,12 @@
     .add-product svg {
         width: 5rem;
         height: 5rem;
+    }
+
+    .status svg {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 1rem;
     }
 
 }

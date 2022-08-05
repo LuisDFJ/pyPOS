@@ -41,6 +41,41 @@ main {
     width: 100%;
 }
 
+.depth-1 {
+    margin-right: 2em;
+    border-width: 2px;
+}
+
+.depth-2 {
+    text-align: start;
+    margin-right: 4em;
+    border-width: 2px;
+}
+
+.depth-3 {
+    text-align: start;
+    margin-right: 8em;
+    border-width: 1px;
+}
+
+.depth-4 {
+    text-align: end;
+    margin-right: 12em;
+    border-style: none;
+}
+
+.depth-5 {
+    text-align: end;
+    margin-right: 16em;
+    border-style: none;
+}
+
+.depth-6 {
+    text-align: end;
+    margin-right: 20em;
+    border-style: none;
+}
+
 .add-product {
     margin: 1rem;
 }

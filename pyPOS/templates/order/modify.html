@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/card_styles.css' ) }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="product-header">
+        <h2>Order#</h2>
+        <a href="{{ url_for( 'entry.index', id=order_id ) }}" class="add-product">
+            <svg
+                width="24px"
+                height="24px"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M11 10H9v3H6v2h3v3h2v-3h3v-2h-3z"/>
+                <path d="M4 22h12c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2zM4 8h12l.002 12H4V8z"/>
+                <path d="M20 2H8v2h12v12h2V4c0-1.103-.897-2-2-2z"/>
+            </svg>
+        </a>
+    </div>
+    
+    <div class="card-container">
+        {% for product in product_list%}
+            <div class="card">
+                <img src="{{ url_for( 'static', filename='products/' + product.thumbnail|e ) }}">
+                <div class="card-content">
+                    <div class="card-info">
+                        <p class="title">{{ product.product|e }}</>
+                        <p>{{ product.comment|e }}</p>
+                        <p class="price">${{ product.price|e }}</p>
+                        
+                    </div>
+                    <div class="card-buttons">
+                        
+                        <div class="status" >
+
+                            <svg
+                                version="1.1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                x="0px"
+                                y="0px"
+                                viewBox="0 0 24.394 24.394"
+                                style="enable-background:new 0 0 24.394 24.394;fill:{{ product.color|e }}"
+                                xml:space="preserve">
+                                <g>
+                                    <circle cx="12.197" cy="12.197" r="12.197"/>
+                                </g>
+                            </svg>
+    
+                            <p>{{ product.status|e }}</p>
+                        </div>
+                        
+                        <a href="#" class="card-link">
+                            <div class="card-button">Delete</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -5,8 +5,6 @@ from flask import Blueprint, request, render_template, url_for, redirect, sessio
 
 bp = Blueprint( "auth", __name__, url_prefix="/auth" )
 
-
-
 @bp.before_app_request
 def load_logged_user():
     id = session.get( 'user_id' )

@@ -1,4 +1,3 @@
-from math import prod
 import os
 import click
 import sqlite3
@@ -27,13 +26,19 @@ def openSQL( file ):
 @click.command( 'init-db' )
 @click.option( '--users', is_flag=True )
 @click.option( '--products', is_flag=True )
+@click.option( '--orders', is_flag=True )
+@click.option( '--views', is_flag=True )
 @with_appcontext
-def init_db_command( users, products ):
+def init_db_command( users, products, orders, views ):
     """ Clear existing database. """
     db = getDB()
-    if not products and not users: products = True; users = True
+    if not ( products or users or orders or views ) : products = True; users = True; orders = True; views = True
     if products:
         db.executescript( openSQL( 'create_products.sql' ) )
     if users:
         db.executescript( openSQL( 'create_users.sql' ) )
-    click.echo( f'DATABASE Created: Users[{users}], Products[{products}]' )
+    if orders:
+        db.executescript( openSQL( 'create_orders.sql' ) )
+    if views:
+        db.executescript( openSQL( 'create_views.sql' ) )
+    click.echo( f'DATABASE Created: Users[{users}], Products[{products}], Orders[{orders}], Views[{views}]' )

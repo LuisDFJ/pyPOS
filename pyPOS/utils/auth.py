@@ -1,12 +1,12 @@
+import os
 import click
 import secrets
-import os
-from flask import current_app, session
-from flask.cli import with_appcontext
-from pyPOS.utils.db import getDB, openSQL
-from pyPOS.utils.qrcode import generate_qr
-from pyPOS.utils.click_utils import ClickFlagRequired
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask                      import current_app, session
+from flask.cli                  import with_appcontext
+from pyPOS.utils.db             import getDB, openSQL
+from pyPOS.utils.qrcode         import generate_qr
+from pyPOS.utils.click_utils    import ClickFlagRequired
+from werkzeug.security          import check_password_hash, generate_password_hash
 
 def insert_into_user( username, position ):
     db = getDB()
