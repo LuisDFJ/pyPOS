@@ -10,19 +10,13 @@ def modify_order_status( id:int, status:str ):
             """ UPDATE orders
                 SET status_id = (
                     SELECT id FROM order_status WHERE name = ?
-                ) WHERE id = ?""",
+                ) WHERE id = ?
+            """,
             ( status, id )
         )
         db.commit()
     except db.IntegrityError:
         pass
-
-def get_entries( id:int ):
-    db = getDB()
-    return db.execute(
-        'SELECT * FROM entry_view WHERE Order_ID = ?',
-        ( id, )
-    ).fetchall()
 
 def get_order( id:int ):
     db = getDB()
@@ -79,17 +73,6 @@ def create_order( name:str, user_id:int ):
     except db.IntegrityError:
         pass
 
-def create_entry( id:int, product_id:int, comment:str ):
-    db = getDB()
-    try:
-        db.execute(
-            openSQL( 'insert_entry.sql' ),
-            ( id, product_id, comment )
-        )
-        db.commit()
-    except db.IntegrityError:
-        pass
-
 @click.command( 'add-order' )
 @click.option( '--name',    prompt=True )
 @click.option( '--user-id', prompt=True, type=int )
@@ -97,12 +80,3 @@ def create_entry( id:int, product_id:int, comment:str ):
 def add_order_command( name:str, user_id:int ):
     create_order( name, user_id )
     click.echo( f'Order created [{name}]' )
-
-@click.command( 'add-entry' )
-@click.option( '--id',          prompt=True, type=int )
-@click.option( '--product-id',  prompt=True, type=int )
-@click.option( '--comment',     prompt=True )
-@with_appcontext
-def add_entry_command( id:int, product_id:int, comment:str ):
-    create_entry( id, product_id, comment )
-    click.echo( f'Entry created [{id}]' )

@@ -3,7 +3,8 @@ DROP VIEW IF EXISTS entry_view;
 CREATE VIEW entry_view AS
 SELECT
     oe.id       AS id,
-    datetime( os.unix_time, 'unixepoch', 'localtime' ) AS timestamp,
+    datetime( os.unix_time, 'unixepoch', 'localtime' ) AS order_timestamp,
+    datetime( oe.unix_time, 'unixepoch', 'localtime' ) AS entry_timestamp,
     oe.order_id AS order_id,
     os.name     AS order_name,
     os.username AS user,

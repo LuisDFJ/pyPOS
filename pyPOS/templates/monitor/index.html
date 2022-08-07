@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block css_imports %}
+<link rel="stylesheet" href="{{ url_for( 'static', filename='css/card_monitor_styles.css' ) }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="product-header">
+        <h2>Monitor view</h2>
+    </div>
+    
+    {% for status, product_list in entry_dict.items() %}
+    
+    <div class="product-header">
+        <h2 class="depth-3" style="border-width: 0;">{{status}}</h2>
+    </div>
+
+    <div class="card-container">
+        {% for product in product_list%}
+
+
+
+        <div class="card">
+            <img src="{{ url_for( 'static', filename='products/' + product.thumbnail|e ) }}">
+            <div class="card-content">
+                
+                <div class="card-info">
+                    <p class="title">{{ product.product|e }}</p>
+                    <div class="status" >
+                        <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            x="0px"
+                            y="0px"
+                            viewBox="0 0 24.394 24.394"
+                            style="enable-background:new 0 0 24.394 24.394;fill:{{ product.color|e }}"
+                            xml:space="preserve">
+                            <g>
+                                <circle cx="12.197" cy="12.197" r="12.197"/>
+                            </g>
+                        </svg>
+    
+                        <p>{{ product.status|e }}</p>
+                    </div>
+                    <p>{{ product.order_name|e }} - {{ product.user|e }}</p>
+                    <p>{{ product.entry_timestamp|e }}</p>
+                    <p>{{ product.comment|e }}</p>
+                    
+                </div>
+
+                <div class="card-buttons">
+                    {% if product.status == 'Created' %}
+                    <a href="{{ url_for( 'monitor.cancel', id=product.order_id, product_id=product.id ) }}" class="card-link">
+                        <div class="card-button">Cancel</div>
+                    </a>
+                    <a href="{{ url_for( 'monitor.accept', id=product.order_id, product_id=product.id ) }}" class="card-link">
+                        <div class="card-button">Accept</div>
+                    </a>
+                    {% elif product.status == 'In progress' %}
+                    <a href="{{ url_for( 'monitor.ready', id=product.order_id, product_id=product.id ) }}" class="card-link">
+                        <div class="card-button">Ready</div>
+                    </a>
+                    {% elif product.status == 'Delivered' %}
+                    <a href="{{ url_for( 'monitor.pay', id=product.order_id, product_id=product.id ) }}" class="card-link">
+                        <div class="card-button">Pay</div>
+                    </a>
+                    {% elif product.status == 'Canceled' %}
+                    <a href="{{ url_for( 'monitor.open', id=product.order_id, product_id=product.id ) }}" class="card-link">
+                        <div class="card-button">Open</div>
+                    </a>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+    </div>
+    
+    {% endfor %}
+{% endblock %}

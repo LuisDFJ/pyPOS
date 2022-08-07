@@ -55,20 +55,6 @@
     
                             <p>{{ product.status|e }}</p>
                         </div>
-
-                        {% if product.status == 'Created' %}
-                        <a href="{{ url_for( 'entry.cancel', id=order_id, product_id=product.id|e ) }}" class="card-link">
-                            <div class="card-button">Cancel</div>
-                        </a>
-                        {% elif product.status == 'Ready' %}
-                        <a href="{{ url_for( 'entry.deliver', id=order_id, product_id=product.id|e ) }}" class="card-link">
-                            <div class="card-button">Deliver</div>
-                        </a>
-                        {% elif product.status == 'Canceled' %}
-                        <a href="{{ url_for( 'entry.open', id=order_id, product_id=product.id|e ) }}" class="card-link">
-                            <div class="card-button">Open</div>
-                        </a>
-                        {% endif %}
                         
                     </div>
                 </div>

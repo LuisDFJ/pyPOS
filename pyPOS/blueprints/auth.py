@@ -1,6 +1,6 @@
 from pyPOS.utils.db import getDB
 from pyPOS.utils.auth import authenticate
-from pyPOS.utils.decorators import credentials_not_required
+from pyPOS.utils.decorators import credentials_not_required, credentials_required
 from flask import Blueprint, request, render_template, url_for, redirect, session, g, flash
 
 bp = Blueprint( "auth", __name__, url_prefix="/auth" )
@@ -36,6 +36,7 @@ def login():
     return render_template( "auth/login.html" )
 
 @bp.route( '/logout' )
+@credentials_required
 def logout():
     session.clear()
     return redirect( url_for( "index.index" ) )

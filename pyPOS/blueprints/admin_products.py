@@ -4,17 +4,17 @@ from os.path                import dirname, abspath, join
 from werkzeug.utils         import secure_filename
 from pyPOS.utils.admin      import get_products, allowed_file, add_product, delete_product, get_product, modify_product
 from pyPOS.utils.products   import get_categories
-from pyPOS.utils.decorators import credentials_required_admin
+from pyPOS.utils.decorators import credentials_level_required
 
 bp = Blueprint( 'admin-products', __name__, url_prefix='/admin/products' )
 
 @bp.route( '/' )
-@credentials_required_admin
+@credentials_level_required( [ 'admin' ] )
 def index():
     return render_template( 'admin/products/index.html', products=get_products() )
 
 @bp.route( '/add', methods=( 'GET', 'POST' ) )
-@credentials_required_admin
+@credentials_level_required( [ 'admin' ] )
 def add():
     if request.method == 'POST':
         error = 'No file part.'
@@ -35,7 +35,7 @@ def add():
     return render_template( 'admin/products/add.html', categories=get_categories() )
 
 @bp.route( '/modify/<int:id>', methods=( 'GET', 'POST' ) )
-@credentials_required_admin
+@credentials_level_required( [ 'admin' ] )
 def modify( id ):
     if request.method == 'POST':
         args = dict( request.form )
@@ -46,7 +46,7 @@ def modify( id ):
     return render_template( 'admin/products/modify.html', **product )
 
 @bp.route( '/delete/<int:id>' )
-@credentials_required_admin
+@credentials_level_required( [ 'admin' ] )
 def delete( id ):
     delete_product( id )
     return redirect( url_for( 'admin-products.index' ) )

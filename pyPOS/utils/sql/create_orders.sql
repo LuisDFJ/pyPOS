@@ -29,6 +29,7 @@ CREATE TABLE order_entry (
     order_id INTEGER,
     status_id INTEGER,
     product_id INTEGER,
+    unix_time INTEGER NOT NULL,
     comment TEXT,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (status_id) REFERENCES order_entry_status(id),
@@ -43,6 +44,7 @@ CREATE TABLE order_entry_status (
 
 INSERT INTO order_entry_status ( id, name, color ) VALUES ( 1, 'Created',       'white' );
 INSERT INTO order_entry_status ( id, name, color ) VALUES ( 2, 'In progress',   'yellow' );
-INSERT INTO order_entry_status ( id, name, color ) VALUES ( 3, 'Delivered',     'green' );
-INSERT INTO order_entry_status ( id, name, color ) VALUES ( 4, 'Payed',         'black' );
-INSERT INTO order_entry_status ( id, name, color ) VALUES ( 5, 'Canceled',      'red' );
+INSERT INTO order_entry_status ( id, name, color ) VALUES ( 3, 'Ready',         'orange' );
+INSERT INTO order_entry_status ( id, name, color ) VALUES ( 4, 'Delivered',     'green' );
+INSERT INTO order_entry_status ( id, name, color ) VALUES ( 5, 'Payed',         'black' );
+INSERT INTO order_entry_status ( id, name, color ) VALUES ( 6, 'Canceled',      'red' );

@@ -50,6 +50,12 @@ def user_authentication( username, password ):
                 ( username, )
             ).fetchone()
             return check_password_hash( user['password'], password ), user['id']
+        elif position == 'monitor':
+            user = db.execute(
+                openSQL( 'fetch_credential_monitor.sql' ),
+                ( username, )
+            ).fetchone()
+            return check_password_hash( user['password'], password ), user['id']
         elif position == 'user':
             user = db.execute(
                 openSQL( 'fetch_credential_user.sql' ),
@@ -91,13 +97,17 @@ def roll_up_secret():
 
 @click.command( 'create-user' )
 @click.option( '--admin', is_flag=True, is_eager=False )
+@click.option( '--monitor', is_flag=True, is_eager=False )
 @click.option( '--username', prompt=True )
-@click.option( '--password', prompt=True, hide_input=True, confirmation_prompt=True, cls=ClickFlagRequired, flag_required='admin' )
+@click.option( '--password', prompt=True, hide_input=True, confirmation_prompt=True, cls=ClickFlagRequired, flag_required=['admin', 'monitor'] )
 @with_appcontext
-def create_user_command( admin, username, password ):
+def create_user_command( admin, monitor, username, password ):
     if admin:
         if insert_into_user( username, 'admin' ):
             insert_into_credentials( 'insert_credential_admin.sql', username, generate_password_hash( password ), 'admin' )
+    elif monitor:
+        if insert_into_user( username, 'monitor' ):
+            insert_into_credentials( 'insert_credential_monitor.sql', username, generate_password_hash( password ), 'monitor' )
     else:
         if insert_into_user( username, 'user' ):
             insert_into_credentials( 'insert_credential_user.sql', username, 'null', 'user' )
